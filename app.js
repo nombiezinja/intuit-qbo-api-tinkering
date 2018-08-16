@@ -1,7 +1,8 @@
-const ENV = process.env.NODE_ENV;
+require('dotenv').config();
+
+const ENV = process.env.ENV;
 const port = 8080;
 
-require('dotenv').config();
 const express = require('express');
 const app = express();
 const request = require('request');
@@ -17,13 +18,14 @@ app.get("/oauth2redirect", (req, res) => {
 })
 
 app.get('/intuit', (req, res) => {
+  console.log(process.env.CLIENT_ID)
   request.post(`https://appcenter.intuit.com/connect/oauth2`, {
     json: {
-      client_id: ENV['CLIENT_ID'], 
+      client_id:process.env.CLIENT_ID, 
       redirect_uri: "http://localhost:8080/oauth2redirect", 
       response_type: "code", 
       scope: "com.intuit.quickbooks.accounting", 
-      state: ENV['STATE']
+      state: process.env.STATE
     },
     headers: {
       'Content-Type': 'application/json'
