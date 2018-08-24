@@ -14,23 +14,26 @@ app.get('/', (req, res) => {
 })
 
 app.get("/oauth2redirect", (req, res) => {
+  console.log("Hit")
   res.send("Hello it me")
 })
 
 app.get('/intuit', (req, res) => {
-  console.log(process.env.CLIENT_ID)
-  request.post(`https://appcenter.intuit.com/connect/oauth2`, {
-    json: {
-      client_id:process.env.CLIENT_ID, 
-      redirect_uri: "http://localhost:8080/oauth2redirect", 
-      response_type: "code", 
-      scope: "com.intuit.quickbooks.accounting", 
-      state: process.env.STATE
-    },
+  console.log(process.env.STATE)
+  request.get(`https://appcenter.intuit.com/connect/oauth2?client_id=L093aQ7XyGkCQP3gY3Ee9m7NRno0mhNa2ru184wX1m1qtpDxQO&redirect_uri=http%3A%2F%2Flocalhost%3A9090%2Foauth2redirect&response_type=code&scope=com.intuit.quickbooks.accounting&state=c8e8115b-fbd7-4782-8c4b-d01e2d049111`, {
+    // json: {
+    //   client_id:process.env.CLIENT_ID, 
+    //   redirect_uri: "http://localhost:8080/oauth2redirect", 
+    //   response_type: "code", 
+    //   scope: "com.intuit.quickbooks.accounting", 
+    //   state: process.env.STATE
+    // },
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json', 
+      'Access-Control-Allow-Origin': 'http://localhost:8080/'
     }
-  }, (err, response, body) => {
+  }, (err, response,
+     body) => {
     if (err) {
       return console.log(err);
     }
